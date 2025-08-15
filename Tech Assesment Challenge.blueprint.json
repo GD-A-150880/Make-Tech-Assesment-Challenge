@@ -1,0 +1,1307 @@
+{
+    "name": "Tech Assesment Challenge",
+    "flow": [
+        {
+            "id": 1,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 1550170,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 150
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "My gateway-webhook webhook"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 150
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 2,
+                            "module": "google-docs:createADocumentFromTemplate",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 3364857
+                            },
+                            "filter": {
+                                "name": "",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.`Document Type`}}",
+                                            "b": "Low",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "name": "{{1.Name}}-{{1.`Document Type`}}",
+                                "select": "dropdown",
+                                "document": "/1lCpxYhCBiSCkC3yoOLVWRQysWwJCt7uy/1nAscKQHmLCOW2NV9AezmOlRGQ37UxrwKVxh_VCkmAbw",
+                                "folderId": "/1lCpxYhCBiSCkC3yoOLVWRQysWwJCt7uy",
+                                "requests": {
+                                    "Email": "{{1.Email}}",
+                                    "Case Type": "{{1.`Tell us your Case Type`}}",
+                                    "Client Name": "{{1.Name}}",
+                                    "Document Type Requested": "{{1.`Document Type`}}"
+                                },
+                                "destination": "drive"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "select": {
+                                            "label": "By Dropdown"
+                                        },
+                                        "document": {
+                                            "path": [
+                                                "Tech Assesment",
+                                                "Low Tech Assesment"
+                                            ]
+                                        },
+                                        "folderId": {
+                                            "mode": "chose",
+                                            "path": [
+                                                "Tech Assesment"
+                                            ]
+                                        },
+                                        "destination": {
+                                            "label": "My Drive"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (hishamakram58@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Create a Document from a Template",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "dropdown"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Title",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "destination",
+                                        "type": "select",
+                                        "label": "New Drive Location",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Choose a Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "document",
+                                        "type": "file",
+                                        "label": "Document ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requests",
+                                        "spec": [
+                                            {
+                                                "name": "Client Name",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Case Type",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Document Type Requested",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Email",
+                                                "type": "any"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values"
+                                    },
+                                    {
+                                        "name": "folderId",
+                                        "type": "folder",
+                                        "label": "New Document's Location",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "module": "google-docs:exportADocument",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 3364857
+                            },
+                            "mapper": {
+                                "document": "{{2.id}}",
+                                "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "destination": "drive"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "document": {
+                                            "mode": "edit",
+                                            "path": []
+                                        },
+                                        "mimeType": {
+                                            "mode": "chose",
+                                            "label": "Microsoft Word (.docx)"
+                                        },
+                                        "destination": {
+                                            "label": "My Drive"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (hishamakram58@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "destination",
+                                        "type": "select",
+                                        "label": "Choose a Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "mimeType",
+                                        "type": "select",
+                                        "label": "Type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                                "application/vnd.oasis.opendocument.text",
+                                                "application/rtf",
+                                                "application/pdf",
+                                                "text/plain",
+                                                "text/html",
+                                                "application/epub+zip"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "document",
+                                        "type": "file",
+                                        "label": "Document ID",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "module": "email:ActionSendEmail",
+                            "version": 7,
+                            "parameters": {
+                                "account": 3364862,
+                                "saveAfterSent": false
+                            },
+                            "mapper": {
+                                "cc": [],
+                                "to": [
+                                    "{{1.Email}}"
+                                ],
+                                "bcc": [],
+                                "from": "",
+                                "text": "Thank you submitted the From\nOur team will contact your shortly\n\nThanks",
+                                "sender": "",
+                                "headers": [],
+                                "replyTo": "",
+                                "subject": "",
+                                "priority": "normal",
+                                "inReplyTo": "",
+                                "references": [],
+                                "attachments": [
+                                    {
+                                        "cid": "",
+                                        "data": "{{6.data}}",
+                                        "fileName": "{{6.filename}}"
+                                    }
+                                ],
+                                "contentType": "text"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "priority": {
+                                            "label": "Normal"
+                                        },
+                                        "references": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "contentType": {
+                                            "label": "Plaintext"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "account": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "smtp"
+                                            },
+                                            "label": "My Others (SMTP) connection (SMTP hisham.akram@codexsolutionsint.com)"
+                                        },
+                                        "saveAfterSent": {
+                                            "label": "No"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:smtp,google-restricted,microsoft-smtp-imap",
+                                        "label": "Connection",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "saveAfterSent",
+                                        "type": "select",
+                                        "label": "Save message after sending",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "hidden"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Content Type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "html",
+                                                "text"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "required": true,
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "required": true,
+                                                "semantic": "file:data"
+                                            },
+                                            {
+                                                "name": "cid",
+                                                "type": "text",
+                                                "label": "Content-ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Copy recipient"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Blind copy recipient"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "text",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "sender",
+                                        "type": "text",
+                                        "label": "Sender"
+                                    },
+                                    {
+                                        "name": "replyTo",
+                                        "type": "text",
+                                        "label": "Reply-To"
+                                    },
+                                    {
+                                        "name": "inReplyTo",
+                                        "type": "text",
+                                        "label": "In-Reply-To"
+                                    },
+                                    {
+                                        "name": "references",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Reference",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "References"
+                                    },
+                                    {
+                                        "name": "priority",
+                                        "type": "select",
+                                        "label": "Priority",
+                                        "validate": {
+                                            "enum": [
+                                                "high",
+                                                "normal",
+                                                "low"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "key",
+                                                "type": "text",
+                                                "label": "Key",
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "value",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 12,
+                            "module": "mysql:InsertIntoTable",
+                            "version": 2,
+                            "parameters": {
+                                "account": 3366757,
+                                "isToManageDataInSharedTransaction": true,
+                                "showWarnings": false,
+                                "table": "`perfect1_abdell`.`tapp_test`"
+                            },
+                            "mapper": {
+                                "@id": "",
+                                "@Status": "Active",
+                                "@date_time": "{{now}}",
+                                "@name": "{{1.Name}}",
+                                "@casetype": "{{1.`Tell us your Case Type`}}",
+                                "@email": "{{1.Email}}",
+                                "@documenttype": "{{1.`Document Type`}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1487,
+                                    "y": 7
+                                },
+                                "restore": {
+                                    "parameters": {
+                                        "account": {
+                                            "label": "My MySQL connection (perfect1_hisham@148.113.159.122:3306/perfect1_abdell)",
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "mysql"
+                                            }
+                                        },
+                                        "table": {
+                                            "label": "perfect1_abdell.tapp_test"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:mysql",
+                                        "label": "Connection",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "isToManageDataInSharedTransaction",
+                                        "type": "boolean",
+                                        "label": "Manage data within the shared transaction",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "showWarnings",
+                                        "type": "boolean",
+                                        "label": "Show warnings from the database",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "@id",
+                                        "type": "integer",
+                                        "label": "id"
+                                    },
+                                    {
+                                        "name": "@Status",
+                                        "type": "text",
+                                        "label": "Status",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@date_time",
+                                        "type": "date",
+                                        "label": "date_time",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@name",
+                                        "type": "text",
+                                        "label": "name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@casetype",
+                                        "type": "text",
+                                        "label": "casetype",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@email",
+                                        "type": "text",
+                                        "label": "email",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@documenttype",
+                                        "type": "text",
+                                        "label": "documenttype",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 8,
+                            "module": "google-docs:createADocumentFromTemplate",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 3364857
+                            },
+                            "filter": {
+                                "name": "",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.`Document Type`}}",
+                                            "b": "High",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "name": "{{1.Name}}-{{1.`Document Type`}}",
+                                "select": "dropdown",
+                                "document": "/1lCpxYhCBiSCkC3yoOLVWRQysWwJCt7uy/1-QkijZQgNVKcMIbdD_ldH8UBUlfSFplUrPkfUDKVO2s",
+                                "folderId": "/1lCpxYhCBiSCkC3yoOLVWRQysWwJCt7uy",
+                                "requests": {
+                                    "Email": "{{1.Email}}",
+                                    "Case Type": "{{1.`Tell us your Case Type`}}",
+                                    "Client Name": "{{1.Name}}",
+                                    "Document Type Requested": "{{1.`Document Type`}}"
+                                },
+                                "destination": "drive"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "select": {
+                                            "label": "By Dropdown"
+                                        },
+                                        "document": {
+                                            "path": [
+                                                "Tech Assesment",
+                                                "High Tech Assesment"
+                                            ]
+                                        },
+                                        "folderId": {
+                                            "mode": "chose",
+                                            "path": [
+                                                "Tech Assesment"
+                                            ]
+                                        },
+                                        "destination": {
+                                            "label": "My Drive"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (hishamakram58@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Create a Document from a Template",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "dropdown"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Title",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "destination",
+                                        "type": "select",
+                                        "label": "New Drive Location",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Choose a Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "document",
+                                        "type": "file",
+                                        "label": "Document ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requests",
+                                        "spec": [
+                                            {
+                                                "name": "Client Name",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Case Type",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Document Type Requested",
+                                                "type": "any"
+                                            },
+                                            {
+                                                "name": "Email",
+                                                "type": "any"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values"
+                                    },
+                                    {
+                                        "name": "folderId",
+                                        "type": "folder",
+                                        "label": "New Document's Location",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 9,
+                            "module": "google-docs:exportADocument",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 3364857
+                            },
+                            "mapper": {
+                                "document": "{{8.id}}",
+                                "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "destination": "drive"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "document": {
+                                            "mode": "edit",
+                                            "path": []
+                                        },
+                                        "mimeType": {
+                                            "mode": "chose",
+                                            "label": "Microsoft Word (.docx)"
+                                        },
+                                        "destination": {
+                                            "label": "My Drive"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (hishamakram58@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "destination",
+                                        "type": "select",
+                                        "label": "Choose a Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "mimeType",
+                                        "type": "select",
+                                        "label": "Type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                                "application/vnd.oasis.opendocument.text",
+                                                "application/rtf",
+                                                "application/pdf",
+                                                "text/plain",
+                                                "text/html",
+                                                "application/epub+zip"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "document",
+                                        "type": "file",
+                                        "label": "Document ID",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 10,
+                            "module": "email:ActionSendEmail",
+                            "version": 7,
+                            "parameters": {
+                                "account": 3364862,
+                                "saveAfterSent": false
+                            },
+                            "mapper": {
+                                "cc": [],
+                                "to": [
+                                    "{{1.Email}}"
+                                ],
+                                "bcc": [],
+                                "from": "",
+                                "text": "Thank you submitted the From\nOur team will contact your shortly\n\nThanks",
+                                "sender": "",
+                                "headers": [],
+                                "replyTo": "",
+                                "subject": "",
+                                "priority": "normal",
+                                "inReplyTo": "",
+                                "references": [],
+                                "attachments": [
+                                    {
+                                        "cid": "",
+                                        "data": "{{9.data}}",
+                                        "fileName": "{{9.filename}}"
+                                    }
+                                ],
+                                "contentType": "text"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "priority": {
+                                            "label": "Normal"
+                                        },
+                                        "references": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "contentType": {
+                                            "label": "Plaintext"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "account": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "smtp"
+                                            },
+                                            "label": "My Others (SMTP) connection (SMTP hisham.akram@codexsolutionsint.com)"
+                                        },
+                                        "saveAfterSent": {
+                                            "label": "No"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:smtp,google-restricted,microsoft-smtp-imap",
+                                        "label": "Connection",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "saveAfterSent",
+                                        "type": "select",
+                                        "label": "Save message after sending",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "hidden"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Content Type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "html",
+                                                "text"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "required": true,
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "required": true,
+                                                "semantic": "file:data"
+                                            },
+                                            {
+                                                "name": "cid",
+                                                "type": "text",
+                                                "label": "Content-ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Copy recipient"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Blind copy recipient"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "text",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "sender",
+                                        "type": "text",
+                                        "label": "Sender"
+                                    },
+                                    {
+                                        "name": "replyTo",
+                                        "type": "text",
+                                        "label": "Reply-To"
+                                    },
+                                    {
+                                        "name": "inReplyTo",
+                                        "type": "text",
+                                        "label": "In-Reply-To"
+                                    },
+                                    {
+                                        "name": "references",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Reference",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "References"
+                                    },
+                                    {
+                                        "name": "priority",
+                                        "type": "select",
+                                        "label": "Priority",
+                                        "validate": {
+                                            "enum": [
+                                                "high",
+                                                "normal",
+                                                "low"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "key",
+                                                "type": "text",
+                                                "label": "Key",
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "value",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 13,
+                            "module": "mysql:InsertIntoTable",
+                            "version": 2,
+                            "parameters": {
+                                "account": 3366757,
+                                "isToManageDataInSharedTransaction": true,
+                                "showWarnings": false,
+                                "table": "`perfect1_abdell`.`tapp_test`"
+                            },
+                            "mapper": {
+                                "@id": "",
+                                "@Status": "Active",
+                                "@date_time": "{{now}}",
+                                "@name": "{{1.Name}}",
+                                "@casetype": "{{1.`Tell us your Case Type`}}",
+                                "@email": "{{1.Email}}",
+                                "@documenttype": "{{1.`Document Type`}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1513,
+                                    "y": 274
+                                },
+                                "restore": {
+                                    "parameters": {
+                                        "account": {
+                                            "label": "My MySQL connection (perfect1_hisham@148.113.159.122:3306/perfect1_abdell)",
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "mysql"
+                                            }
+                                        },
+                                        "table": {
+                                            "label": "perfect1_abdell.tapp_test"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:mysql",
+                                        "label": "Connection",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "isToManageDataInSharedTransaction",
+                                        "type": "boolean",
+                                        "label": "Manage data within the shared transaction",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "showWarnings",
+                                        "type": "boolean",
+                                        "label": "Show warnings from the database",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "@id",
+                                        "type": "integer",
+                                        "label": "id"
+                                    },
+                                    {
+                                        "name": "@Status",
+                                        "type": "text",
+                                        "label": "Status",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@date_time",
+                                        "type": "date",
+                                        "label": "date_time",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@name",
+                                        "type": "text",
+                                        "label": "name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@casetype",
+                                        "type": "text",
+                                        "label": "casetype",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@email",
+                                        "type": "text",
+                                        "label": "email",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "@documenttype",
+                                        "type": "text",
+                                        "label": "documenttype",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
